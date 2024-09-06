@@ -6,7 +6,7 @@ import plussign from "./plus.png"
 import minussign from "./minus.png"
 import { type } from '@testing-library/user-event/dist/type'
 
-const ScoreCard = ()=>{
+const ScoreCard = ({teamName})=>{
   
   const SAMOSA_PRICE = 12 ; 
   const [quantity , setQuantity] = useState (1);
@@ -36,17 +36,12 @@ const ScoreCard = ()=>{
   return (
     <div className='card'>
       <img src={bdyCakee} className='card-img'/>
-      <h1 className='card-title'> CAKE</h1>
+      <h1 className='card-title'> {teamName}</h1>
       <p className='card-description'>
       Cake is a sweet, baked dessert that comes in various flavors and textures, 
       typically made from flour, sugar, eggs, and  oil.</p>
-      
-      <div className='price'>
-      <p className='card-price'> PRICE ₹ {SAMOSA_PRICE}</p>
-      <p className='total-price'> TOTAL ₹ {totalBill}</p>
-      </div>
 
-      <p className='card-error'>{quantity > 10 ?  "bulk order hai time lagenga": null }</p>
+
 
       <div className='sing-container'>
         <img src={minussign} className='sign' alt="minus"
@@ -57,7 +52,7 @@ const ScoreCard = ()=>{
         <img src={plussign} className='sign' alt="plus"
         onClick={()=>updateQuantity ("plus")}/>
       </div>
-      <button className='btn'>BUY NOW</button>
+     
     </div>
   )
 }
@@ -67,11 +62,16 @@ return(
   <div >
     <h1 className='score-title'>SCORECEEPAR</h1>
   <div className='score-card-container'>
-     <ScoreCard/>
-    <ScoreCard/>
-    <ScoreCard/>
+     <ScoreCard
+      teamName= {"mumbai indian "}
+      description = {'play for the pride of nashik'}/>
+
+    <ScoreCard
+     teamName= {"orange city nagpur"}
+     description = {'we are the king of nagpur'}/>
+
    </div>
-   \</div>
+   </div>
 ) 
 }
 
