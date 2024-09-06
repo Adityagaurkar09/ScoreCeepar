@@ -1,76 +1,97 @@
 import React,{useEffect, useState} from 'react'
 import './App.css'
-import bdyCake from "./birthday-cake.jpg"
-import bdyCakee from "./birthday-cakee.png"
 import plussign from "./plus.png"
 import minussign from "./minus.png"
-import { type } from '@testing-library/user-event/dist/type'
 
-const ScoreCard = ({teamName})=>{
+const ScoreCard = ({teamName,description ,logo ,changeScore})=>{
   
-  const SAMOSA_PRICE = 12 ; 
-  const [quantity , setQuantity] = useState (1);
-  const [totalBill , setTotalBill] = useState (SAMOSA_PRICE);
+  const [score , setScore] = useState (1);
   
-  const updateQuantity = (type) => {
+  const updateScore = (type) => {
   if(type === "plus"){
-    setQuantity(quantity+1);
-  }else if(type === "minus"  && quantity > 1){
-    setQuantity(quantity-1)
+    setScore(score+1);
+  }else if(type === "minus"){
+    setScore(score-1)
   }}
   
-  useEffect (()=>{
-  
-    const Toatal = (SAMOSA_PRICE*quantity);
-    
-  if(quantity < 10){
-    setTotalBill(Toatal);
-  }
-  else if(quantity >= 10 && quantity <= 20){
-    setTotalBill(Toatal - 20);
-  }
-  else { setTotalBill(Toatal - 50);
-    
-  }
-  },[quantity]) 
+  useEffect(()=> {
+    changeScore(score);
+  },[score]);
   return (
     <div className='card'>
-      <img src={bdyCakee} className='card-img'/>
+      <span className='logo'>{logo}</span>
       <h1 className='card-title'> {teamName}</h1>
       <p className='card-description'>
-      Cake is a sweet, baked dessert that comes in various flavors and textures, 
-      typically made from flour, sugar, eggs, and  oil.</p>
+      {description}</p>
 
 
 
       <div className='sing-container'>
         <img src={minussign} className='sign' alt="minus"
-        onClick={()=>updateQuantity("minus")}/>
+        onClick={()=>updateScore("minus")}/>
 
-        <span className='couting'>{quantity}</span>
+        <span className='couting'>{score}</span>
 
         <img src={plussign} className='sign' alt="plus"
-        onClick={()=>updateQuantity ("plus")}/>
+        onClick={()=>updateScore ("plus")}/>
       </div>
      
     </div>
   )
 }
 
+const WinnerCard = ({score1 , score2 , setShowWinner})=>{
+let winner = '';
+if (score1===score2){
+  winner = 'match is draw';
+}
+else if(score1 > score2){
+  winner = 'team 1 won';
+}
+
+else{
+  winner = 'team 2 won';
+}
+
+  return<div className='winner-card-container'>
+    <div className='winner-card-text-container'>
+      {winner}
+      <div>
+        <button type="button"
+        className='cancel-btn'
+        onClick={()=> setShowWinner(false)}>
+          cancel</button>
+      </div>
+      </div>
+    </div>
+};
+
 function App() {
+
+  const [team1Score , setTeam1Score]= useState(0);
+  const [team2Score , setTeamS2core]= useState(0);
+  const [ showWinner , setShowWinner]= useState(false);
+
 return(
   <div >
     <h1 className='score-title'>SCORECEEPAR</h1>
   <div className='score-card-container'>
      <ScoreCard
       teamName= {"mumbai indian "}
-      description = {'play for the pride of nashik'}/>
+      description = {'play for the pride of nashik'}
+      logo = {'MI'}
+      changeScore = {setTeam1Score}/>
 
     <ScoreCard
      teamName= {"orange city nagpur"}
-     description = {'we are the king of nagpur'}/>
-
+     description = {'we are the king of nagpur'}
+     logo = {'N'}
+     changeScore = {setTeamS2core}/>
    </div>
+
+ {showWinner ? <WinnerCard score1={team1Score} score2={team2Score} setShowWinner={setShowWinner}/>:null }
+
+   <button type="button" className='app-btn' onClick={()=>setShowWinner(true)}>who won ?</button>
    </div>
 ) 
 }
